@@ -1,10 +1,21 @@
-import { useState, useEffect, useRef } from 'react'
-import styled from '@emotion/styled'
-import SliderContent from './SliderContent'
-import Slide from './Slide'
+/** @jsxImportSource @emotion/react */
+import { css, jsx } from '@emotion/react'
 
 
-// or destructure: const Slider = (props) => to const Slider = ({slides}) =>
+const Slide = ({ content }) => (
+  <div
+    css={css`
+    height: 100%;
+    width: 100%;
+    background-image: url("${content}");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    `}
+  />
+)
+
+
 const Slider = (props) => {
   const getWidth = () => window.innerWidth
 
@@ -22,8 +33,11 @@ const Slider = (props) => {
     // </div>
     
     <SliderCSS>
-      <SliderContent translate={translate} transition={transition} width={getWidth()}  >
-        slider content
+      <SliderContent translate={translate} transition={transition} width={getWidth() * props.slides.length }  >
+      {
+        props.slides.map(slide => (
+        <Slide key={slide} content={slide} />
+        ))}
       
         <Slide />
       </SliderContent>
@@ -40,5 +54,3 @@ const SliderCSS = styled.div`
   overflow: hidden;
   background: #333;
 `
-
-export default Slider
