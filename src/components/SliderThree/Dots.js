@@ -1,4 +1,5 @@
 /** @jsxImportSource @emotion/react */
+import React, { memo } from 'react'
 import { css, jsx } from '@emotion/react'
 
 const Dot = ({ active }) => {
@@ -9,14 +10,15 @@ const Dot = ({ active }) => {
         margin-right: 5px;
         cursor: pointer;
         border-radius: 50%;
-        //active slide 'dot' is coloured black, otherwise they are white dots
         background: ${active ? 'black' : 'white'};
       `}
     />
   )
 }
 
-const DotsTwo = ({ slides, activeIndex }) => {
+const MemoDot = memo(Dot)
+
+const Dots = ({ slides, activeSlide }) => {
   return (
     <div
       css={css`
@@ -29,10 +31,10 @@ const DotsTwo = ({ slides, activeIndex }) => {
       `}
     >
       {slides.map((slide, i) => (
-        <Dot key={slide} active={activeIndex === i} />
+        <MemoDot key={slide} active={activeSlide === i} />
       ))}
     </div>
   )
 }
 
-export default DotsTwo
+export default Dots
