@@ -19,7 +19,7 @@ function App() {
       </div>
 
       <Slider slides={images} />
-      <SliderTwo slides={images} />
+      <SliderTwo slides={images} autoPlay={3} />
 
       <div className="App">
         <h1>Slider Footer Test</h1>

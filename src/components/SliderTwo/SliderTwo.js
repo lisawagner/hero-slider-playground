@@ -6,9 +6,9 @@ import SlideTwo from './SlideTwo'
 import ArrowTwo from './ArrowTwo'
 import DotsTwo from './DotsTwo'
 
-const SliderTwo = (props) => {
-  const getWidth = () => window.innerWidth
+const getWidth = () => window.innerWidth
 
+const SliderTwo = (props) => {
   const [state, setState] = useState({
     activeIndex: 0,
     translate: 0,
@@ -17,6 +17,32 @@ const SliderTwo = (props) => {
   })
 
   const { translate, transition, activeIndex } = state
+  const autoPlayRef = useRef()
+
+  // here we have no dependency array, so it's going to update on every re-render
+  useEffect(() => {
+    autoPlayRef.current = nextSlide
+  })
+
+  useEffect(() => {
+    const play = () => {
+      autoPlayRef.current();
+    }
+
+    let interval = null
+  
+    if (props.autoPlay) {
+      interval = setInterval(play, props.autoPlay * 1000);
+    }
+  
+    return () => {
+      if (props.autoPlay) {
+        clearInterval(interval);
+      }
+    }
+  }, [activeIndex])
+  
+  
 
   const nextSlide = () => {
     //edge case for last slide - needs to be reset to 0 index
@@ -68,12 +94,24 @@ const SliderTwo = (props) => {
         ))}
       </SliderTwoContent>
 
-      <ArrowTwo direction="left" handleClick={prevSlide} />
-      <ArrowTwo direction="right" handleClick={nextSlide} />
+      {/* when autoplay active, arrows and dots are inactive */}
+      {
+        !props.autoPlay && (
+        <>
+          <ArrowTwo direction="left" handleClick={prevSlide} />
+          <ArrowTwo direction="right" handleClick={nextSlide} />
+        </>
+        )
+      }
 
       <DotsTwo slides={props.slides} activeIndex={activeIndex} />
     </SliderCSS>
   )
+}
+
+SliderTwo.defaultProps = {
+  slides: [],
+  autoPlay: null
 }
 
 const SliderCSS = styled.div`
