@@ -1,6 +1,8 @@
 {
   "name": "hero-slider-playground",
   "version": "0.1.0",
+  "description": "A playground for experimenting with creating Hero Sliders built with React Hooks.",
+  "author": "Lisa Wagner",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.9.0",
